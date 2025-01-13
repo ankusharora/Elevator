@@ -13,5 +13,9 @@ public class Main {
         controller.handleRequest(new Request(new ExternalRequest(5, Direction.UP), new InternalRequest(10)));
         controller.handleRequest(new Request(new ExternalRequest(1, Direction.UP), new InternalRequest(15)));
         controller.handleRequest(new Request(new ExternalRequest(20, Direction.DOWN), new InternalRequest(5)));
+        controller.handleRequest(new Request(new ExternalRequest(3, Direction.DOWN), new InternalRequest(2)));
+        controller.handleRequest(new Request(new ExternalRequest(1, Direction.UP), new InternalRequest(7)));
+
+
     }
 }
