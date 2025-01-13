@@ -20,6 +20,22 @@ class Elevator {
         this.downQueue = new PriorityQueue<>(Comparator.reverseOrder());
     }
 
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+
     public int getId() {
         return id;
     }
@@ -29,6 +45,44 @@ class Elevator {
     }
 
     public void addRequest(Request request) {
+        ExternalRequest externalRequest = request.getExternalRequest();
+        InternalRequest internalRequest = request.getInternalRequest();
+
+        if (externalRequest != null) {
+            int sourceFloor = externalRequest.getSourceFloor();
+            Direction requestDirection = externalRequest.getDirection();
+
+            if (currentFloor == sourceFloor) {
+                // If already at the source floor, add the request directly
+                if (requestDirection == Direction.UP) {
+                    upQueue.add(sourceFloor);
+                } else {
+                    downQueue.add(sourceFloor);
+                }
+            } else {
+                // First move to the source floor
+                if (sourceFloor > currentFloor) {
+                    upQueue.add(sourceFloor);
+                } else {
+                    downQueue.add(sourceFloor);
+                }
+            }
+        }
+
+        if (internalRequest != null) {
+            int destinationFloor = internalRequest.getDestinationFloor();
+            if (destinationFloor > currentFloor) {
+                upQueue.add(destinationFloor);
+            } else {
+                downQueue.add(destinationFloor);
+            }
+        }
+
+        processRequests();
+    }
+
+
+    public void addRequest1(Request request) {
         ExternalRequest externalRequest = request.getExternalRequest();
         InternalRequest internalRequest = request.getInternalRequest();
 
